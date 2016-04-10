@@ -1,4 +1,4 @@
-package br.com.ngccodex.mytasks;
+package br.com.ngccodex.yourtasks;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package br.com.ngccodex.mytasks;
+package br.com.ngccodex.yourtasks;
 
 import org.junit.Test;
 
