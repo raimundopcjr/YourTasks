@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Your Tasks</string>
+    <string name="caption_login">Login</string>
+    <string name="message_create_user">Not a user ? Click here to create...</string>
 </resources>
