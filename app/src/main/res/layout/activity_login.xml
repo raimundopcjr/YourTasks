@@ -14,7 +14,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="#ffffff"
-        android:textSize="24sp"
         android:hint="email" />
 
     <EditText
@@ -28,7 +27,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:background="#ffffff"
-        android:textSize="24sp"
         android:hint="password" />
 
     <Button

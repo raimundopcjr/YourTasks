@@ -1,6 +1,8 @@
 package br.com.ngccodex.yourtasks;
 
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,11 +17,16 @@ import com.firebase.client.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
     Firebase myFirebaseRef;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private String mActivityTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         myFirebaseRef = new Firebase("https://your-tasks.firebaseio.com/");
         AuthData authData = myFirebaseRef.getAuth();
@@ -38,42 +45,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(FirebaseError error) {
             }
         });
-        //myFirebaseRef.unauth();
-        /*
-        if (authData != null) {
-            // user authenticated
-        } else {
-            // no user authenticated
-        }
-        myFirebaseRef.authWithPassword("raimundopcjr@gmail.com", "raifirebase", new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                // Authenticated successfully with payload authData
-                // user is logged in
 
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                // Authenticated failed with error firebaseError
-                TextView tv1 = (TextView) findViewById(R.id.editText);
-                switch (firebaseError.getCode()) {
-                    case FirebaseError.USER_DOES_NOT_EXIST:
-                        // handle a non existing user
-                        tv1.setText("USER_DOES_NOT_EXIST.");
-                        break;
-                    case FirebaseError.INVALID_PASSWORD:
-                        // handle an invalid password
-                        tv1.setText("INVALID_PASSWORD.");
-                        break;
-                    default:
-                        // handle other errors
-                        tv1.setText(String.format("OTHER: " + firebaseError.getCode()));
-                        break;
-
-                }
-            }
-        });*/
     }
 
     public void clickLogout(View view) {
