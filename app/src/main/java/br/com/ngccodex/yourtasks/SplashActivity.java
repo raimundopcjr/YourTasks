@@ -5,8 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.firebase.client.Firebase;
-import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseLib;
+import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseMain;
 /**
  * Created by tg8g on 10/04/16.
  */
@@ -20,9 +19,9 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        FirebaseBaseLib.initFirebase();
+        FirebaseBaseMain.initFirebase();
 
-        if (FirebaseBaseLib.hasUserAuthenticated()) {
+        if (FirebaseBaseMain.hasUserAuthenticated()) {
             new Handler().postDelayed(new Runnable() {
 
             /*

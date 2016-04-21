@@ -6,12 +6,12 @@ import com.firebase.client.Firebase;
 /**
  * Created by tg8g on 20/04/16.
  */
-public final class FirebaseBaseLib {
+public final class FirebaseBaseMain {
 
     private static Firebase myFirebaseRef;
     final static String firebaseRoot = "https://your-tasks.firebaseio.com/";
 
-    private FirebaseBaseLib(){
+    private FirebaseBaseMain(){
     }
 
     public static void initFirebase(){
@@ -20,7 +20,6 @@ public final class FirebaseBaseLib {
             myFirebaseRef = new Firebase(firebaseRoot);
             Firebase.getDefaultConfig().setPersistenceEnabled(true);
         }
-        return;
     }
 
     public static Firebase getFirebase(){
@@ -29,7 +28,11 @@ public final class FirebaseBaseLib {
 
     public static boolean hasUserAuthenticated(){
         AuthData authData = myFirebaseRef.getAuth();
-        return authData != null;
+        return (authData != null);
+    }
+
+    public static boolean checkUser(String userPassword){
+        return (userPassword.length() == 0);
     }
 }
 

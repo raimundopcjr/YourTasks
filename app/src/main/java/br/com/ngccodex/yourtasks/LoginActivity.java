@@ -11,7 +11,7 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseLib;
+import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseMain;
 
 /**
  * Created by tg8g on 10/04/16.
@@ -28,21 +28,31 @@ public class LoginActivity extends Activity {
     public void btnLoginClick(View view) {
         TextView email = (TextView) findViewById(R.id.editEmail);
         TextView password = (TextView) findViewById(R.id.editPassword);
-        FirebaseBaseLib.getFirebase().authWithPassword(email.getText().toString(), password.getText().toString(), new Firebase.AuthResultHandler() {
+        TextView userPassword = (TextView) findViewById(R.id.editUserPassword);
+
+        final String strUserPassword = userPassword.getText().toString();
+
+        FirebaseBaseMain.getFirebase().authWithPassword(email.getText().toString(), password.getText().toString(), new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
-                // close this activity
-                finish();
+                // Admin logged
+                if(FirebaseBaseMain.checkUser(strUserPassword)) { // User exists
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                } else { // User dont exists
+                    FirebaseBaseMain.getFirebase().unauth();
+                    Toast toast = Toast.makeText(getApplicationContext(), "@string/message_user_logerror", 1);
+                    toast.show();
+                }
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Erro Login" , 1);
-                toast.show();
-            }
-        });
+                    Toast toast = Toast.makeText(getApplicationContext(), "@string/message_logerror", 1);
+                    toast.show();
+                }
+            });
     }
 
     public void btnNewUser(View view) {
