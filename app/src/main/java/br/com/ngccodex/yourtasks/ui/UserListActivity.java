@@ -1,5 +1,6 @@
 package br.com.ngccodex.yourtasks.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -41,7 +42,7 @@ public class UserListActivity extends AppCompatActivity {
 
         fbUsersRef = FirebaseBaseMain.setChild("user");
         ListView listView = (ListView) findViewById(R.id.listView);
-        //ListView listView = (ListView) getLayoutInflater().inflate(R.layout.userlist_user, null);
+
         mUserListAdapter = new FirebaseListAdapter<User>(this, User.class, R.layout.userlist_user, fbUsersRef) {
             @Override
             protected void populateView(View v, User objUser, int position) {
@@ -63,8 +64,10 @@ public class UserListActivity extends AppCompatActivity {
                 Adapter tempAdapter = parent.getAdapter();
                 User tempUser = (User) tempAdapter.getItem(position);
                 String tempNode = tempUser.getNode();
-                StringBuilder tempSb = new StringBuilder().append("user/").append(tempNode);
-                fbUsersRef = FirebaseBaseMain.setChild(tempSb.toString());
+
+                Intent i = new Intent(UserListActivity.this, UserEditActivity.class);
+                i.putExtra(FirebaseBaseMain.EXTRA_CURRENT_USER_NODE, tempNode.toString());
+                startActivity(i);
             }
         });
     }

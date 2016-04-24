@@ -14,7 +14,8 @@ public final class FirebaseBaseMain {
     private static Firebase myFirebaseRef;
     final static String firebaseRoot = "https://your-tasks.firebaseio.com/";
     private static String currentUID;
-
+    private static String curNode;
+    public static final String EXTRA_CURRENT_USER_NODE = "EXTRA_CURRENT_NODE";
     private FirebaseBaseMain(){
     }
 
@@ -46,13 +47,15 @@ public final class FirebaseBaseMain {
         if(authData != null) { //User authenticated
             currentUID = authData.getUid();
         } else {
+            myFirebaseRef.unauth();
             currentUID = "";
         }
         return currentUID;
     }
 
     public static Firebase setChild(String childName){
-        myFirebaseRef = myFirebaseRef.child(getCurrentUID()).child(childName);
+        StringBuilder tempChild = new StringBuilder().append(getCurrentUID()).append("/").append(childName);
+        myFirebaseRef = myFirebaseRef.getRoot().child(tempChild.toString());
         return myFirebaseRef;
     }
 }
