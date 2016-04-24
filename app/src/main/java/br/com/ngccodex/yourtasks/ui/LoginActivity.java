@@ -1,4 +1,4 @@
-package br.com.ngccodex.yourtasks;
+package br.com.ngccodex.yourtasks.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import br.com.ngccodex.yourtasks.R;
 import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseMain;
 
 /**
@@ -36,14 +37,20 @@ public class LoginActivity extends Activity {
             @Override
             public void onAuthenticated(AuthData authData) {
                 // Admin logged
-                if(FirebaseBaseMain.checkUser(strUserPassword)) { // User exists
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                if(strUserPassword.length() == 0) {
+                    Intent i = new Intent(LoginActivity.this, UserListActivity.class);
                     startActivity(i);
                     finish();
-                } else { // User dont exists
-                    FirebaseBaseMain.getFirebase().unauth();
-                    Toast toast = Toast.makeText(getApplicationContext(), "@string/message_user_logerror", 1);
-                    toast.show();
+                } else {
+                    if (FirebaseBaseMain.checkUser(strUserPassword)) { // User exists
+                        Intent i = new Intent(LoginActivity.this, UserListActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else { // User dont exists
+                        FirebaseBaseMain.getFirebase().unauth();
+                        Toast toast = Toast.makeText(getApplicationContext(), "@string/message_user_logerror", 1);
+                        toast.show();
+                    }
                 }
             }
 

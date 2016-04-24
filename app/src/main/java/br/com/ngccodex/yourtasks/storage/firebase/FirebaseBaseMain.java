@@ -1,7 +1,10 @@
 package br.com.ngccodex.yourtasks.storage.firebase;
 
+import android.content.Context;
+
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+import com.firebase.client.Logger;
 
 /**
  * Created by tg8g on 20/04/16.
@@ -10,15 +13,18 @@ public final class FirebaseBaseMain {
 
     private static Firebase myFirebaseRef;
     final static String firebaseRoot = "https://your-tasks.firebaseio.com/";
+    private static String currentUID;
 
     private FirebaseBaseMain(){
     }
 
-    public static void initFirebase(){
+    public static void initFirebase(Context context){
         // Initialize Firebase
         if( myFirebaseRef == null ){
-            myFirebaseRef = new Firebase(firebaseRoot);
             Firebase.getDefaultConfig().setPersistenceEnabled(true);
+            Firebase.setAndroidContext(context);
+            Firebase.getDefaultConfig().setLogLevel(Logger.Level.DEBUG);
+            myFirebaseRef = new Firebase(firebaseRoot);
         }
     }
 
@@ -33,6 +39,21 @@ public final class FirebaseBaseMain {
 
     public static boolean checkUser(String userPassword){
         return (userPassword.length() == 0);
+    }
+
+    public static String getCurrentUID(){
+        AuthData authData = myFirebaseRef.getAuth();
+        if(authData != null) { //User authenticated
+            currentUID = authData.getUid();
+        } else {
+            currentUID = "";
+        }
+        return currentUID;
+    }
+
+    public static Firebase setChild(String childName){
+        myFirebaseRef = myFirebaseRef.child(getCurrentUID()).child(childName);
+        return myFirebaseRef;
     }
 }
 
