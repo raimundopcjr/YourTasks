@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.ngccodex.yourtasks">
+    package="br.com.ngccodex.yourtasks" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -9,10 +9,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.SplashActivity">
+        android:theme="@style/AppTheme" >
+        <activity android:name=".ui.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -23,7 +24,16 @@
         <activity
             android:name=".ui.UserListActivity"
             android:label="@string/title_activity_user_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.UserEditActivity"
+            android:label="@string/title_activity_user_edit"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.UserViewActivity"
+            android:label="@string/title_activity_user_view"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>
