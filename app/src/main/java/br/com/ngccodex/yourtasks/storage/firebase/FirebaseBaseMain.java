@@ -53,10 +53,23 @@ public final class FirebaseBaseMain {
         return currentUID;
     }
 
-    public static Firebase setChild(String childName){
-        StringBuilder tempChild = new StringBuilder().append(getCurrentUID()).append("/").append(childName);
-        myFirebaseRef = myFirebaseRef.getRoot().child(tempChild.toString());
-        return myFirebaseRef;
+    public static boolean setChild(String childName){
+
+        StringBuilder tempChild;
+        String curUID = getCurrentUID();
+        boolean retVal;
+
+        if(curUID.isEmpty()) {
+            tempChild = new StringBuilder().append(getCurrentUID()).append("/").append(childName);
+            myFirebaseRef = myFirebaseRef.getRoot().child(tempChild.toString());
+            retVal = true;
+        }
+        else{
+            myFirebaseRef = myFirebaseRef.getRoot();
+            retVal = false;
+        }
+
+        return retVal;
     }
 }
 

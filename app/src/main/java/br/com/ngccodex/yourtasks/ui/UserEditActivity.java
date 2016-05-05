@@ -29,11 +29,12 @@ public class UserEditActivity extends AppCompatActivity {
             }
         });
 
-        Bundle extras = getIntent().getExtras();
-        String curNode;
-        if (extras != null) {
-            curNode = extras.getString(FirebaseBaseMain.EXTRA_CURRENT_USER_NODE);
-        }
+        
+        //Bundle extras = getIntent().getExtras();
+        //String curNode;
+        //if (extras != null) {
+        //    curNode = extras.getString(FirebaseBaseMain.EXTRA_CURRENT_USER_NODE);
+        //}
 
     }
 

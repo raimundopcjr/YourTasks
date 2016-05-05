@@ -6,10 +6,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.firebase.client.Firebase;
+
 import br.com.ngccodex.yourtasks.R;
+import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseMain;
 
 public class UserViewActivity extends AppCompatActivity {
 
+    Firebase fbUsersRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +30,9 @@ public class UserViewActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        fbUsersRef = FirebaseBaseMain.getFirebase();
+
     }
 
 }

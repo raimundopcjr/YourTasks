@@ -40,36 +40,43 @@ public class UserListActivity extends AppCompatActivity {
             }
         });
 
-        fbUsersRef = FirebaseBaseMain.setChild("user");
-        ListView listView = (ListView) findViewById(R.id.listView);
+        if(FirebaseBaseMain.setChild("user")) {
+            fbUsersRef = FirebaseBaseMain.getFirebase();
 
-        mUserListAdapter = new FirebaseListAdapter<User>(this, User.class, R.layout.userlist_user, fbUsersRef) {
-            @Override
-            protected void populateView(View v, User objUser, int position) {
-                //super.populateView(v, object );
-                TextView textCode = (TextView) v.findViewById(R.id.textCode);
-                TextView textName = (TextView) v.findViewById(R.id.textName);
-                TextView textTaskList = (TextView) v.findViewById(R.id.textTaskList);
-                TextView textTotal = (TextView) v.findViewById(R.id.textTotal);
-                textCode.setText(objUser.getCode());
-                textName.setText(objUser.getName());
-                textTaskList.setText(objUser.getTasklist());
-                textTotal.setText( String.valueOf(objUser.getTotal()));
-            }
-        };
-        listView.setAdapter(mUserListAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Adapter tempAdapter = parent.getAdapter();
-                User tempUser = (User) tempAdapter.getItem(position);
-                String tempNode = tempUser.getNode();
+            ListView listView = (ListView) findViewById(R.id.listView);
 
-                Intent i = new Intent(UserListActivity.this, UserEditActivity.class);
-                i.putExtra(FirebaseBaseMain.EXTRA_CURRENT_USER_NODE, tempNode.toString());
-                startActivity(i);
-            }
-        });
+            mUserListAdapter = new FirebaseListAdapter<User>(this, User.class, R.layout.userlist_user, fbUsersRef) {
+                @Override
+                protected void populateView(View v, User objUser, int position) {
+                    //super.populateView(v, object );
+                    TextView textCode = (TextView) v.findViewById(R.id.textCode);
+                    TextView textName = (TextView) v.findViewById(R.id.textName);
+                    TextView textTaskList = (TextView) v.findViewById(R.id.textTaskList);
+                    TextView textTotal = (TextView) v.findViewById(R.id.textTotal);
+                    textCode.setText(objUser.getCode());
+                    textName.setText(objUser.getName());
+                    textTaskList.setText(objUser.getTasklist());
+                    textTotal.setText(String.valueOf(objUser.getTotal()));
+                }
+            };
+            listView.setAdapter(mUserListAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Adapter tempAdapter = parent.getAdapter();
+                    User tempUser = (User) tempAdapter.getItem(position);
+                    String tempNode = tempUser.getNode();
+
+                    Intent i = new Intent(UserListActivity.this, UserViewActivity.class);
+                    //i.putExtra(FirebaseBaseMain.EXTRA_CURRENT_USER_NODE, tempNode.toString());
+                    startActivity(i);
+                }
+            });
+        } else {
+            Intent i = new Intent(UserListActivity.this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        }
     }
 
 }
