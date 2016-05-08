@@ -12,16 +12,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseListAdapter;
 
 import br.com.ngccodex.yourtasks.R;
 import br.com.ngccodex.yourtasks.model.User;
-import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseMain;
+import br.com.ngccodex.yourtasks.storage.firebase.FirebaseRef;
 
 public class UserListActivity extends AppCompatActivity {
 
-    Firebase fbUsersRef;
+    FirebaseRef fbRef;
     FirebaseListAdapter<User> mUserListAdapter;
 
     @Override
@@ -39,13 +38,12 @@ public class UserListActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-        if(FirebaseBaseMain.setChild("user")) {
-            fbUsersRef = FirebaseBaseMain.getFirebase();
-
+        fbRef = new FirebaseRef(this);
+        fbRef.setChild("user");
+        if(fbRef.getRef() != null) {
             ListView listView = (ListView) findViewById(R.id.listView);
 
-            mUserListAdapter = new FirebaseListAdapter<User>(this, User.class, R.layout.userlist_user, fbUsersRef) {
+            mUserListAdapter = new FirebaseListAdapter<User>(this, User.class, R.layout.userlist_user, fbRef.getRef()) {
                 @Override
                 protected void populateView(View v, User objUser, int position) {
                     //super.populateView(v, object );

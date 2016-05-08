@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import br.com.ngccodex.yourtasks.R;
-import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseMain;
 
 public class UserEditActivity extends AppCompatActivity {
 

@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import br.com.ngccodex.yourtasks.R;
-import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseMain;
+import br.com.ngccodex.yourtasks.storage.firebase.FirebaseRef;
 
 /**
  * Created by tg8g on 10/04/16.
  */
 public class SplashActivity extends Activity {
+
+    private FirebaseRef fbRef;
 
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 2000;
@@ -21,9 +23,9 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        FirebaseBaseMain.initFirebase(this);
+        fbRef = new FirebaseRef(this);
 
-        if (FirebaseBaseMain.hasUserAuthenticated()) {
+        if (fbRef.hasUserAuthenticated()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

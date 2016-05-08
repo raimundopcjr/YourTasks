@@ -12,18 +12,20 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import br.com.ngccodex.yourtasks.R;
-import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseMain;
+import br.com.ngccodex.yourtasks.storage.firebase.FirebaseRef;
 
 /**
  * Created by tg8g on 10/04/16.
  */
 public class LoginActivity extends Activity {
 
+    FirebaseRef fbRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        fbRef = new FirebaseRef(this);
     }
 
     public void btnLoginClick(View view) {
@@ -33,21 +35,22 @@ public class LoginActivity extends Activity {
 
         final String strUserPassword = userPassword.getText().toString();
 
-        FirebaseBaseMain.getFirebase().authWithPassword(email.getText().toString(), password.getText().toString(), new Firebase.AuthResultHandler() {
+        fbRef.getRef().authWithPassword(email.getText().toString(), password.getText().toString(), new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
                 // Admin logged
+                fbRef.setUID(authData.getUid());
                 if(strUserPassword.length() == 0) {
                     Intent i = new Intent(LoginActivity.this, UserListActivity.class);
                     startActivity(i);
                     finish();
                 } else {
-                    if (FirebaseBaseMain.checkUser(strUserPassword)) { // User exists
+                    if (fbRef.checkUser(strUserPassword)) { // User exists
                         Intent i = new Intent(LoginActivity.this, UserListActivity.class);
                         startActivity(i);
                         finish();
                     } else { // User dont exists
-                        FirebaseBaseMain.getFirebase().unauth();
+                        fbRef.getRef().unauth();
                         Toast toast = Toast.makeText(getApplicationContext(), "@string/message_user_logerror", 1);
                         toast.show();
                     }

@@ -10,11 +10,11 @@ import android.view.View;
 import com.firebase.client.Firebase;
 
 import br.com.ngccodex.yourtasks.R;
-import br.com.ngccodex.yourtasks.storage.firebase.FirebaseBaseMain;
+import br.com.ngccodex.yourtasks.storage.firebase.FirebaseRef;
 
 public class UserViewActivity extends AppCompatActivity {
 
-    Firebase fbUsersRef;
+    FirebaseRef fbUsersRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +31,7 @@ public class UserViewActivity extends AppCompatActivity {
             }
         });
 
-        fbUsersRef = FirebaseBaseMain.getFirebase();
+        fbUsersRef = new FirebaseRef(this);
 
     }
 

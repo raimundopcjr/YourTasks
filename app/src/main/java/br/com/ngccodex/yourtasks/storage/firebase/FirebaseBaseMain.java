@@ -1,5 +1,6 @@
 package br.com.ngccodex.yourtasks.storage.firebase;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.firebase.client.AuthData;
@@ -11,65 +12,40 @@ import com.firebase.client.Logger;
  */
 public final class FirebaseBaseMain {
 
-    private static Firebase myFirebaseRef;
     final static String firebaseRoot = "https://your-tasks.firebaseio.com/";
     private static String currentUID;
-    private static String curNode;
     public static final String EXTRA_CURRENT_USER_NODE = "EXTRA_CURRENT_NODE";
+    private static Context appContext;
+
     private FirebaseBaseMain(){
     }
 
     public static void initFirebase(Context context){
-        // Initialize Firebase
-        if( myFirebaseRef == null ){
-            Firebase.getDefaultConfig().setPersistenceEnabled(true);
+        // Config Firebase
+        if(appContext == null) {
+            appContext = context;
             Firebase.setAndroidContext(context);
+            Firebase.getDefaultConfig().setPersistenceEnabled(true);
             Firebase.getDefaultConfig().setLogLevel(Logger.Level.DEBUG);
-            myFirebaseRef = new Firebase(firebaseRoot);
         }
     }
 
     public static Firebase getFirebase(){
-        return (myFirebaseRef);
+        return new Firebase(firebaseRoot);
     }
 
-    public static boolean hasUserAuthenticated(){
-        AuthData authData = myFirebaseRef.getAuth();
-        return (authData != null);
-    }
-
-    public static boolean checkUser(String userPassword){
-        return (userPassword.length() == 0);
-    }
-
-    public static String getCurrentUID(){
-        AuthData authData = myFirebaseRef.getAuth();
-        if(authData != null) { //User authenticated
-            currentUID = authData.getUid();
+    public static Firebase setChild(String child){
+        if(!currentUID.isEmpty()) {
+            //fbRef = fbRef.getRoot().child(new StringBuilder().append(currentUID).append("/").append(child).toString());
+            //return fbRef;
+            return new Firebase(firebaseRoot).child(new StringBuilder().append(currentUID).append("/").append(child).toString());
         } else {
-            myFirebaseRef.unauth();
-            currentUID = "";
+            return null;
         }
-        return currentUID;
     }
 
-    public static boolean setChild(String childName){
-
-        StringBuilder tempChild;
-        String curUID = getCurrentUID();
-        boolean retVal;
-
-        if(curUID.isEmpty()) {
-            tempChild = new StringBuilder().append(getCurrentUID()).append("/").append(childName);
-            myFirebaseRef = myFirebaseRef.getRoot().child(tempChild.toString());
-            retVal = true;
-        }
-        else{
-            myFirebaseRef = myFirebaseRef.getRoot();
-            retVal = false;
-        }
-
-        return retVal;
+    public static void setUID(String uid) {
+        currentUID = uid;
     }
 }
 
